@@ -1,11 +1,44 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:presensi_app/home/main_page_user.dart';
+import 'package:presensi_app/pages/home_page.dart';
 import 'package:presensi_app/theme.dart';
 
+import '../service/auth.dart';
+
 class SignInPage extends StatelessWidget {
-  const SignInPage({super.key});
+  SignInPage({super.key});
+
+  TextEditingController nis = new TextEditingController();
+  TextEditingController pass = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    sigIn() async {
+      var bd = {'nis': nis.text, 'password': pass.text};
+      var res = await login(body: bd);
+      Map dp = res['data']['user'] ?? {};
+      token = res['data']['access_token'];
+      if (res['meta']['code'] == 200) {
+        if (dp['role'] == 'user') {
+          Navigator.of(context).pushNamed('/mainuser');
+        }
+        if (dp['role'] == 'other') {
+          Navigator.of(context).pushNamed('/mainother');
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: primaryColor,
+            content: Text(
+              'Usename atau Password Salah',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      }
+    }
+
     Widget header() {
       return Container(
         margin: const EdgeInsets.only(top: 15),
@@ -92,6 +125,7 @@ class SignInPage extends StatelessWidget {
                     Expanded(
                       child: TextFormField(
                         style: primaryTextStyle,
+                        controller: nis,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Username',
                           hintStyle: secondaryTextStyle,
@@ -137,6 +171,7 @@ class SignInPage extends StatelessWidget {
                     Expanded(
                       child: TextFormField(
                         style: primaryTextStyle,
+                        controller: pass,
                         obscureText: true,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Password',
@@ -177,7 +212,9 @@ class SignInPage extends StatelessWidget {
         width: double.infinity,
         margin: const EdgeInsets.only(top: 10),
         child: TextButton(
-          onPressed: () {},
+          onPressed: () {
+            sigIn();
+          },
           style: TextButton.styleFrom(
             backgroundColor: primaryColor,
             shape: RoundedRectangleBorder(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:presensi_app/home/main_page_user.dart';
 import 'package:presensi_app/pages/sign_in_page.dart';
 import 'package:presensi_app/pages/splash_page.dart';
 import 'theme.dart';
@@ -15,7 +16,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => const SplashPage(),
-        '/sign-in': (context) => const SignInPage(),
+        '/sign-in': (context) => SignInPage(),
+        '/mainuser': (context) => const mainUser(
+              role: null,
+            ),
       },
     );
   }

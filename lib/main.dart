@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:presensi_app/home/izin_page.dart';
 import 'package:presensi_app/home/main_page_user.dart';
 import 'package:presensi_app/pages/sign_in_page.dart';
 import 'package:presensi_app/pages/splash_page.dart';
-import 'theme.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -20,6 +19,7 @@ class MyApp extends StatelessWidget {
         '/mainuser': (context) => const mainUser(
               role: null,
             ),
+        '/izinpage': (context) => const izinPage(),
       },
     );
   }

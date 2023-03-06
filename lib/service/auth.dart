@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-const String host = 'http://192.168.2.12:8000/';
+const String host = 'http://192.168.43.168:8000/';
 const String api = '${host}api/';
 String token = '';
 
@@ -17,7 +17,7 @@ user({Map? body}) async {
   final response = await http.get(
     Uri.parse("${api}user"),
     headers: {
-      'Authorization': 'Bearer ' + token,
+      'Authorization': 'Bearer $token',
     },
   );
   final data = jsonDecode(response.body);

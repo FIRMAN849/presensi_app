@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:presensi_app/home/main_page_user.dart';
-import 'package:presensi_app/pages/home_page.dart';
 import 'package:presensi_app/theme.dart';
 
 import '../service/auth.dart';
@@ -9,8 +6,8 @@ import '../service/auth.dart';
 class SignInPage extends StatelessWidget {
   SignInPage({super.key});
 
-  TextEditingController nis = new TextEditingController();
-  TextEditingController pass = new TextEditingController();
+  TextEditingController nis = TextEditingController();
+  TextEditingController pass = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +27,7 @@ class SignInPage extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: primaryColor,
-            content: Text(
+            content: const Text(
               'Usename atau Password Salah',
               textAlign: TextAlign.center,
             ),

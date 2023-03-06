@@ -86,13 +86,13 @@ class _mainUserState extends State<mainUser> {
     Widget body() {
       switch (currentIndex) {
         case 0:
-          return homeUser();
+          return const homeUser();
           break;
         case 1:
-          return ProfilePage();
+          return const ProfilePage();
           break;
         default:
-          return homeUser();
+          return const homeUser();
       }
     }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:presensi_app/main.dart';
 import 'package:presensi_app/theme.dart';
 
 import '../service/auth.dart';
@@ -6,29 +7,47 @@ import '../service/auth.dart';
 class SignInPage extends StatelessWidget {
   SignInPage({super.key});
 
-  TextEditingController nis = TextEditingController();
+  TextEditingController username = TextEditingController();
   TextEditingController pass = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     sigIn() async {
-      var bd = {'nis': nis.text, 'password': pass.text};
-      var res = await login(body: bd);
-      Map dp = res['data']['user'] ?? {};
-      token = res['data']['access_token'];
-      if (res['meta']['code'] == 200) {
-        if (dp['role'] == 'user') {
-          Navigator.of(context).pushNamed('/mainuser');
-        }
-        if (dp['role'] == 'other') {
-          Navigator.of(context).pushNamed('/mainother');
+      if (username.text.isNotEmpty && pass.text.isNotEmpty) {
+        var bd = {'username': username.text, 'password': pass.text};
+        Map res = await login(body: bd);
+        print(res);
+        if (res['meta']['code'] == 200) {
+          Map dp = res['data'];
+          token = res['data']['access_token'];
+          dataUser = dp;
+          if (dp['role'] == 'user') {
+            Navigator.of(GlobalVariable.navState.currentContext!)
+                .pushNamedAndRemoveUntil('/mainuser', (route) => false);
+          }
+          if (dp['role'] == 'other') {
+            Navigator.of(GlobalVariable.navState.currentContext!)
+                .pushNamedAndRemoveUntil('/mainother', (route) => false);
+          }
+        } else {
+          ScaffoldMessenger.of(GlobalVariable.navState.currentContext!)
+              .showSnackBar(
+            SnackBar(
+              backgroundColor: primaryColor,
+              content: Text(
+                res['meta']['message'],
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
         }
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
+        ScaffoldMessenger.of(GlobalVariable.navState.currentContext!)
+            .showSnackBar(
           SnackBar(
             backgroundColor: primaryColor,
-            content: const Text(
-              'Usename atau Password Salah',
+            content: Text(
+              'Username / Password Tidak boleh kosong!',
               textAlign: TextAlign.center,
             ),
           ),
@@ -122,7 +141,7 @@ class SignInPage extends StatelessWidget {
                     Expanded(
                       child: TextFormField(
                         style: primaryTextStyle,
-                        controller: nis,
+                        controller: username,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Username',
                           hintStyle: secondaryTextStyle,

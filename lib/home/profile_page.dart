@@ -1,71 +1,90 @@
 import 'package:flutter/material.dart';
+import 'package:presensi_app/service/auth.dart';
 import 'package:presensi_app/theme.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _profilePageState();
+}
+
+class _profilePageState extends State<ProfilePage> {
+  Map dataUser = {};
+
+  getUser() async {
+    Map res = await user();
+    setState(() {
+      dataUser = res['data'];
+    });
+    print(res['data']['user']);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUser();
+  }
 
   @override
   Widget build(BuildContext context) {
     Widget header() {
-      return Container(
-        margin: const EdgeInsets.only(top: 50),
-        child: Row(
-          // ignore: prefer_const_literals_to_create_immutables
-          children: [
-            const CircleAvatar(
-              radius: 32,
-              backgroundImage: AssetImage(
-                'assets/image_avatar.png',
+      return GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, '/myprofile');
+        },
+        child: Container(
+          margin: const EdgeInsets.only(top: 50),
+          child: Row(
+            // ignore: prefer_const_literals_to_create_immutables
+            children: [
+              dataUser.isNotEmpty
+                  ? Container(
+                      child: CircleAvatar(
+                        radius: 32,
+                        backgroundImage:
+                            NetworkImage(dataUser['user']?['image'] ?? ''),
+                      ),
+                    )
+                  : const SizedBox(
+                      width: 30,
+                    ),
+              Container(
+                padding: EdgeInsets.only(left: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      dataUser['user']?['nama'] ?? '',
+                      style: primaryTextStyle.copyWith(
+                        fontSize: 18,
+                        fontWeight: bold,
+                      ),
+                    ),
+                    Text(
+                      dataUser['kelas']?['nama_kelas'] ?? '',
+                      style: secondaryTextStyle.copyWith(
+                        fontSize: 14,
+                        fontWeight: regular,
+                      ),
+                    ),
+                    Text(
+                      dataUser['nis'] ?? '',
+                      style: secondaryTextStyle.copyWith(
+                        fontSize: 14,
+                        fontWeight: regular,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Firman Rizky',
-                  style: primaryTextStyle.copyWith(
-                    fontSize: 18,
-                    fontWeight: bold,
-                  ),
-                ),
-                Text(
-                  'X RPL 3',
-                  style: secondaryTextStyle.copyWith(
-                    fontSize: 14,
-                    fontWeight: regular,
-                  ),
-                ),
-                Text(
-                  '990127851923',
-                  style: secondaryTextStyle.copyWith(
-                    fontSize: 14,
-                    fontWeight: regular,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              width: 65,
-            ),
-            Column(
-              children: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.create,
-                    size: 24,
-                  ),
-                  color: primaryTextColor,
-                  onPressed: () {
-                    print('ppp');
-                  },
-                ),
-              ],
-            )
-          ],
+            ],
+          ),
         ),
       );
     }
@@ -78,10 +97,22 @@ class ProfilePage extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () {
-                  print('ppp');
+                  Navigator.pushNamed(context, '/editprofile');
                 },
                 child: Text(
-                  'Panduan Aplikasi',
+                  'Edit Profile',
+                  style: primaryTextStyle.copyWith(
+                    fontSize: 18,
+                    fontWeight: semibold,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/editpassword');
+                },
+                child: Text(
+                  'Edit Password',
                   style: primaryTextStyle.copyWith(
                     fontSize: 18,
                     fontWeight: semibold,
@@ -94,10 +125,29 @@ class ProfilePage extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
+                  // Navigator.pushNamed(context, '/panduan');
                   print('ppp');
+                  ;
                 },
                 child: Text(
-                  'Tentang',
+                  'Riwayat Izin',
+                  style: primaryTextStyle.copyWith(
+                    fontSize: 18,
+                    fontWeight: semibold,
+                  ),
+                ),
+              ),
+              Divider(
+                height: 1,
+                color: secondaryTextColor,
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/panduan');
+                  ;
+                },
+                child: Text(
+                  'Panduan Aplikasi',
                   style: primaryTextStyle.copyWith(
                     fontSize: 18,
                     fontWeight: semibold,

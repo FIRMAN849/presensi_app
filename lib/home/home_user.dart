@@ -1,11 +1,32 @@
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:presensi_app/service/auth.dart';
 import 'package:presensi_app/theme.dart';
 import 'package:presensi_app/utils/date_local.dart';
 
-class homeUser extends StatelessWidget {
+class homeUser extends StatefulWidget {
   const homeUser({super.key});
+  @override
+  State<homeUser> createState() => _homeUserState();
+}
+
+class _homeUserState extends State<homeUser> {
+  Map dataUser = {};
+
+  getUser() async {
+    Map res = await user();
+    setState(() {
+      dataUser = res['data'];
+    });
+    print(res['data']);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,15 +46,29 @@ class homeUser extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Text(
-              'Hello Firman',
-              style: primaryTextStyle.copyWith(
-                fontSize: 18,
-                fontWeight: bold,
-              ),
+            Row(
+              children: [
+                Text(
+                  'Hello',
+                  style: primaryTextStyle.copyWith(
+                    fontSize: 18,
+                    fontWeight: bold,
+                  ),
+                ),
+                const SizedBox(
+                  width: 3,
+                ),
+                Text(
+                  dataUser['user']?['nama'] ?? '',
+                  style: primaryTextStyle.copyWith(
+                    fontSize: 18,
+                    fontWeight: bold,
+                  ),
+                ),
+              ],
             ),
             Text(
-              'X RPL 3',
+              dataUser['kelas']?['nama_kelas'] ?? '',
               style: secondaryTextStyle.copyWith(
                 fontSize: 12,
                 fontWeight: semibold,
@@ -162,7 +197,7 @@ class homeUser extends StatelessWidget {
                       color: whiteTextColor,
                     ),
                     Text(
-                      'Absen',
+                      'Presensi',
                       style: whiteTextStyle.copyWith(
                         fontSize: 20,
                         fontWeight: bold,
@@ -180,7 +215,7 @@ class homeUser extends StatelessWidget {
               ),
               child: InkWell(
                 onTap: () {
-                  print('tapp');
+                  Navigator.pushNamed(context, '/jadwalpage');
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

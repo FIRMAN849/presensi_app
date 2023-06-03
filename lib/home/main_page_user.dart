@@ -16,20 +16,20 @@ class mainUser extends StatefulWidget {
 class _mainUserState extends State<mainUser> {
   int currentIndex = 0;
 
-  Map dataUser = {};
-  getUser() async {
-    Map res = await user();
-    setState(() {
-      dataUser = res['data'];
-    });
-    print(res['data']);
-  }
+  // Map dataUser = {};
+  // getUser() async {
+  //   Map res = await user();
+  //   setState(() {
+  //     dataUser = res['data'];
+  //   });
+  //   print(res['data']);
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getUser();
+    // getUser();
   }
 
   @override

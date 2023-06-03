@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-const String host = 'http://192.168.43.168:8000/';
+const String host = 'http://192.168.38.233 :8000/';
 const String api = '${host}api/';
 String token = '';
 
@@ -18,9 +18,13 @@ postIzin({required File izin, Map? dd}) async {
     var res = http.MultipartRequest('POST', Uri.parse("${api}izin"));
     res.headers.addAll(headers);
     log('here');
-    var pickIzin = await http.MultipartFile.fromPath("image", izin.path);
-    res.files.add(pickIzin);
+
+    if (izin != null) {
+      var pickIzin = await http.MultipartFile.fromPath("image", izin.path);
+      res.files.add(pickIzin);
+    }
     // log("mjymuuk", dd['nama']);
+    print(izin.path);
     log('message: $res,   data: $res.fields');
     res.fields['nama'] = dd?['nama'];
     res.fields['kelas'] = dd?['kelas'];

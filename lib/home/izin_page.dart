@@ -80,6 +80,8 @@ class _izinPageState extends State<izinPage> {
         });
   }
 
+  String? selectedValue;
+
   @override
   void initState() {
     super.initState();
@@ -90,7 +92,7 @@ class _izinPageState extends State<izinPage> {
     var bd = {
       'nama': nama.text,
       'kelas': kelas.text,
-      'tanggal': tanggal.text,
+      'tgl_izin': dateController.text,
       'alasan': alasan.text
     };
     // ignore: unused_local_variable
@@ -115,7 +117,7 @@ class _izinPageState extends State<izinPage> {
               ),
             ),
             const SizedBox(
-              width: 80,
+              width: 10,
             ),
             Align(
               alignment: Alignment.center,
@@ -132,22 +134,12 @@ class _izinPageState extends State<izinPage> {
       );
     }
 
-    Widget input() {
+    Widget inputStatus() {
       return Container(
-        child: Column(),
-      );
-    }
-
-    Widget inputName() {
-      return Container(
-        margin: const EdgeInsets.only(top: 20),
+        margin: const EdgeInsets.only(top: 30),
         child: Column(
           children: [
             Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
               decoration: BoxDecoration(
                 color: bgWhite,
                 borderRadius: BorderRadius.circular(10),
@@ -155,65 +147,22 @@ class _izinPageState extends State<izinPage> {
                   color: secondaryTextColor,
                 ),
               ),
-              child: Center(
-                child: Row(
-                  children: [
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      child: TextFormField(
-                        style: primaryTextStyle,
-                        decoration: InputDecoration.collapsed(
-                          hintText: 'Nama',
-                          hintStyle: secondaryTextStyle,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    Widget inputKelas() {
-      return Container(
-        margin: const EdgeInsets.only(top: 20),
-        child: Column(
-          children: [
-            Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
-              decoration: BoxDecoration(
-                color: bgWhite,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: secondaryTextColor,
-                ),
-              ),
-              child: Center(
-                child: Row(
-                  children: [
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      child: TextFormField(
-                        style: primaryTextStyle,
-                        decoration: InputDecoration.collapsed(
-                          hintText: 'Kelas',
-                          hintStyle: secondaryTextStyle,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: DropdownButton(
+                  value: selectedValue,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedValue = value;
+                    });
+                  },
+                  underline: SizedBox(),
+                  isExpanded: true,
+                  items: ["SAKIT", "IZIN"]
+                      .map((e) => DropdownMenuItem(
+                            child: Text(e.toString()),
+                            value: e,
+                          ))
+                      .toList()),
             ),
           ],
         ),
@@ -358,11 +307,12 @@ class _izinPageState extends State<izinPage> {
                     Expanded(
                       child: TextFormField(
                         maxLines: 5,
+                        controller: alasan,
                         style: primaryTextStyle.copyWith(
                           fontSize: 12,
                         ),
                         decoration: InputDecoration.collapsed(
-                          hintText: 'Keterangan',
+                          hintText: 'Alasan',
                           hintStyle: secondaryTextStyle,
                         ),
                       ),
@@ -412,8 +362,7 @@ class _izinPageState extends State<izinPage> {
           child: Column(
             children: [
               header(),
-              inputName(),
-              inputKelas(),
+              inputStatus(),
               inputTanggal(),
               inputGambar(),
               inputKeterangan(),

@@ -101,9 +101,15 @@ class _izinPageState extends State<izinPage> {
     };
     Map res = await postIzin(izin: File(image!.path), dd: bd);
     print(res);
-    setState(() {
-      loading = false;
-    });
+    if (res['meta']['code'] == 200) {
+      setState(() {
+        loading = false;
+      });
+    } else {
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   @override

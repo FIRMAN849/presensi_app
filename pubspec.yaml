@@ -39,6 +39,7 @@ dependencies:
   intl: ^0.18.0
   image_picker: ^0.8.6
   getwidget: ^2.0.4
+  qr_code_scanner: ^1.0.1
 
 dev_dependencies:
   flutter_test:

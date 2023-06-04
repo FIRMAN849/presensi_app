@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:presensi_app/home/presensi_page.dart';
 import 'package:presensi_app/service/auth.dart';
 import 'package:presensi_app/theme.dart';
 import 'package:presensi_app/utils/date_local.dart';
@@ -186,7 +187,8 @@ class _homeUserState extends State<homeUser> {
               ),
               child: InkWell(
                 onTap: () {
-                  print('tapp');
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const PresensiPage()));
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

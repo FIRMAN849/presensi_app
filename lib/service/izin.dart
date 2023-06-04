@@ -42,3 +42,15 @@ postIzin({required File izin, Map? dd}) async {
     print(e);
   }
 }
+
+sendPresensi(body) async {
+  final response = await http.post(Uri.parse("${api}presensi"),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: body);
+  final data = jsonDecode(response.body);
+
+  return data;
+}

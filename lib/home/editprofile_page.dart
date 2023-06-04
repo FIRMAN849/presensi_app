@@ -25,6 +25,8 @@ class _editProfileState extends State<editProfile> {
   TextEditingController alamat = TextEditingController();
   TextEditingController password = TextEditingController();
 
+  bool loading = false;
+
   Map dataUser = {};
   bool showPasssword = false;
 
@@ -41,6 +43,9 @@ class _editProfileState extends State<editProfile> {
   }
 
   updateProfile() async {
+    setState(() {
+      loading = true;
+    });
     var bd = {
       'tgl_lahir': dateController.text,
       'email': email.text,
@@ -48,7 +53,11 @@ class _editProfileState extends State<editProfile> {
     };
     // ignore: unused_local_variable
     var res = await update(update: File(image!.path), dd: bd);
+    // print(res);
     if (res['meta']['code'] == 200) {
+      setState(() {
+        loading = false;
+      });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: primaryColor,
@@ -59,6 +68,9 @@ class _editProfileState extends State<editProfile> {
         ),
       );
     } else {
+      setState(() {
+        loading = false;
+      });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: primaryColor,
@@ -505,7 +517,14 @@ class _editProfileState extends State<editProfile> {
               inputAlamat(),
               inputGambar(),
               // inputPassword(),
-              kirim(),
+              loading
+                  ? Container(
+                      margin: const EdgeInsets.only(top: 14),
+                      child: const Center(
+                        child: LinearProgressIndicator(),
+                      ),
+                    )
+                  : kirim(),
             ],
           ),
         ),

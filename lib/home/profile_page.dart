@@ -160,7 +160,8 @@ class _profilePageState extends State<ProfilePage> {
               ),
               TextButton(
                 onPressed: () {
-                  print('ppp');
+                  dataUser == null;
+                  Navigator.pushNamed(context, '/');
                 },
                 child: Text(
                   'Logout',

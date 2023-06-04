@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:presensi_app/main.dart';
 import 'package:presensi_app/service/auth.dart';
 import 'package:presensi_app/service/izin.dart';
 import 'package:presensi_app/theme.dart';
@@ -100,11 +101,25 @@ class _izinPageState extends State<izinPage> {
       'alasan': alasan.text,
     };
     Map res = await postIzin(izin: File(image!.path), dd: bd);
-    print(res);
+    // print(res);
     if (res['meta']['code'] == 200) {
       setState(() {
         loading = false;
+
+        dateController.text = '';
+        alasan.text = '';
+        image = null;
       });
+      ScaffoldMessenger.of(GlobalVariable.navState.currentContext!)
+          .showSnackBar(
+        SnackBar(
+          backgroundColor: primaryColor,
+          content: Text(
+            res['meta']['message'],
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
     } else {
       setState(() {
         loading = false;
@@ -225,7 +240,7 @@ class _izinPageState extends State<izinPage> {
                               lastDate: DateTime(2100));
                           if (pickeddate != null) {
                             String formattedDate =
-                                DateFormat("dd-MM-yyyy").format(pickeddate);
+                                DateFormat("yyyy-MM-dd").format(pickeddate);
                             setState(() {
                               dateController.text = formattedDate.toString();
                             });

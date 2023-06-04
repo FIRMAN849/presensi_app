@@ -7,11 +7,11 @@ import 'package:http/http.dart' as http;
 import 'auth.dart';
 
 const String api = '${host}api/';
-String token = '';
 
 postIzin({required File izin, Map? dd}) async {
   Map<String, String> headers = {
     'Authorization': 'Bearer $token',
+    'Accept': 'application/json'
   };
 
   log('message: $dd');

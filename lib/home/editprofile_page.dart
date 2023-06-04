@@ -109,8 +109,8 @@ class _editProfileState extends State<editProfile> {
                       Navigator.pop(context);
                       getImage(ImageSource.gallery);
                     },
-                    child: const Row(
-                      children: [
+                    child: Row(
+                      children: const [
                         Icon(Icons.image),
                         Text('From Gallery'),
                       ],
@@ -122,8 +122,8 @@ class _editProfileState extends State<editProfile> {
                       Navigator.pop(context);
                       getImage(ImageSource.camera);
                     },
-                    child: const Row(
-                      children: [
+                    child: Row(
+                      children: const [
                         Icon(Icons.camera),
                         Text('From Camera'),
                       ],

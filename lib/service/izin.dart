@@ -4,7 +4,8 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-const String host = 'http://192.168.38.233 :8000/';
+import 'auth.dart';
+
 const String api = '${host}api/';
 String token = '';
 
@@ -26,10 +27,11 @@ postIzin({required File izin, Map? dd}) async {
     // log("mjymuuk", dd['nama']);
     print(izin.path);
     log('message: $res,   data: $res.fields');
-    res.fields['nama'] = dd?['nama'];
-    res.fields['kelas'] = dd?['kelas'];
-    res.fields['tgl_izin'] = dd?['tgl_izin'];
-    res.fields['alasan'] = dd?['alasan'];
+    res.fields['siswa_id'] = dd!['siswa_id'].toString();
+    res.fields['kelas_id'] = dd['kelas_id'].toString();
+    res.fields['tgl_izin'] = dd['tgl_izin'];
+    res.fields['alasan'] = dd['alasan'];
+    res.fields['keterangan'] = dd['keterangan'];
 
     http.Response response = await http.Response.fromStream(await res.send());
     log('res: $response');

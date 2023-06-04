@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:presensi_app/service/auth.dart';
 import 'package:presensi_app/service/izin.dart';
 import 'package:presensi_app/theme.dart';
 import 'package:intl/intl.dart';
@@ -16,11 +17,10 @@ class izinPage extends StatefulWidget {
 @override
 class _izinPageState extends State<izinPage> {
   TextEditingController dateController = TextEditingController();
-  TextEditingController nama = TextEditingController();
-  TextEditingController kelas = TextEditingController();
   TextEditingController tanggal = TextEditingController();
-  TextEditingController file_foto = TextEditingController();
   TextEditingController alasan = TextEditingController();
+
+  bool loading = false;
 
   XFile? image;
 
@@ -89,14 +89,21 @@ class _izinPageState extends State<izinPage> {
   }
 
   createIzin() async {
+    setState(() {
+      loading = true;
+    });
     var bd = {
-      'nama': nama.text,
-      'kelas': kelas.text,
+      'siswa_id': dataUser!['siswa_id'],
+      'kelas_id': dataUser!['kelas_id'],
       'tgl_izin': dateController.text,
-      'alasan': alasan.text
+      'keterangan': selectedValue,
+      'alasan': alasan.text,
     };
-    // ignore: unused_local_variable
-    var res = await postIzin(izin: File(image!.path), dd: bd);
+    Map res = await postIzin(izin: File(image!.path), dd: bd);
+    print(res);
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
@@ -147,7 +154,7 @@ class _izinPageState extends State<izinPage> {
                   color: secondaryTextColor,
                 ),
               ),
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: DropdownButton(
                   value: selectedValue,
                   onChanged: (value) {
@@ -155,12 +162,12 @@ class _izinPageState extends State<izinPage> {
                       selectedValue = value;
                     });
                   },
-                  underline: SizedBox(),
+                  underline: const SizedBox(),
                   isExpanded: true,
                   items: ["SAKIT", "IZIN"]
                       .map((e) => DropdownMenuItem(
-                            child: Text(e.toString()),
                             value: e,
+                            child: Text(e.toString()),
                           ))
                       .toList()),
             ),
@@ -366,7 +373,14 @@ class _izinPageState extends State<izinPage> {
               inputTanggal(),
               inputGambar(),
               inputKeterangan(),
-              kirim(),
+              loading
+                  ? Container(
+                      margin: const EdgeInsets.only(top: 14),
+                      child: const Center(
+                        child: LinearProgressIndicator(),
+                      ),
+                    )
+                  : kirim(),
             ],
           ),
         ),

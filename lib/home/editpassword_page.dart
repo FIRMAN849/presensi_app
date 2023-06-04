@@ -1,14 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:presensi_app/home/myprofile_page.dart';
-import 'package:presensi_app/home/profile_page.dart';
 import 'package:presensi_app/service/auth.dart';
 import 'package:presensi_app/theme.dart';
-
-import 'package:image_picker/image_picker.dart';
 
 class editPassword extends StatefulWidget {
   const editPassword({super.key});
@@ -31,7 +24,7 @@ class _editPasswordState extends State<editPassword> {
         'new_password': newpassword.text,
       };
       Map res = await ubahpassword(body: bd);
-      print(res);
+      // print(res);
       if (res['meta']['code'] == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

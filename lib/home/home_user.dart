@@ -118,7 +118,9 @@ class _homeUserState extends State<homeUser> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/panduan');
+                    },
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.all(1),
                       backgroundColor: primaryColor,
@@ -246,7 +248,7 @@ class _homeUserState extends State<homeUser> {
               ),
               child: InkWell(
                 onTap: () {
-                  print('tapp');
+                  Navigator.pushNamed(context, '/riwayatpresensi');
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

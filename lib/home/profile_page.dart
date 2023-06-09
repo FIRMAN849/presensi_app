@@ -125,8 +125,7 @@ class _profilePageState extends State<ProfilePage> {
               ),
               TextButton(
                 onPressed: () {
-                  // Navigator.pushNamed(context, '/panduan');
-                  print('ppp');
+                  Navigator.pushNamed(context, '/riwayatizin');
                   ;
                 },
                 child: Text(

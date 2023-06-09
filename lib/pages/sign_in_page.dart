@@ -4,11 +4,18 @@ import 'package:presensi_app/theme.dart';
 
 import '../service/auth.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
   SignInPage({super.key});
 
+  @override
+  State<SignInPage> createState() => _signPageState();
+}
+
+class _signPageState extends State<SignInPage> {
   TextEditingController username = TextEditingController();
   TextEditingController pass = TextEditingController();
+
+  bool showPasssword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -188,13 +195,27 @@ class SignInPage extends StatelessWidget {
                       child: TextFormField(
                         style: primaryTextStyle,
                         controller: pass,
-                        obscureText: true,
+                        obscureText: showPasssword,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Password',
                           hintStyle: secondaryTextStyle,
                         ),
                       ),
                     ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          showPasssword = !showPasssword;
+                        });
+                      },
+                      child: Container(
+                          child: !showPasssword
+                              ? const Icon(Icons.visibility)
+                              : const Icon(Icons.visibility_off)),
+                    )
                   ],
                 ),
               ),

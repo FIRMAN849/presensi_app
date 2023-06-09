@@ -6,6 +6,8 @@ import 'package:presensi_app/home/jadwal_page.dart';
 import 'package:presensi_app/home/main_page_user.dart';
 import 'package:presensi_app/home/myprofile_page.dart';
 import 'package:presensi_app/home/panduan_page.dart';
+import 'package:presensi_app/home/riwayatizin.dart';
+import 'package:presensi_app/home/riwayatpresensi.dart';
 import 'package:presensi_app/pages/sign_in_page.dart';
 import 'package:presensi_app/pages/splash_page.dart';
 
@@ -37,6 +39,8 @@ class MyApp extends StatelessWidget {
         '/editpassword': (context) => const editPassword(),
         '/myprofile': (context) => const myProfile(),
         '/panduan': (context) => const PanduanPage(),
+        '/riwayatpresensi': (context) => const RiwayatPresensi(),
+        '/riwayatizin': (context) => const RiwayatIzin(),
       },
     );
   }

@@ -9,8 +9,6 @@ import 'package:presensi_app/theme.dart';
 
 import 'package:image_picker/image_picker.dart';
 
-const List<String> list = <String>['Laki-Laki', 'Perempuan'];
-
 class editProfile extends StatefulWidget {
   const editProfile({super.key});
 

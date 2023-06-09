@@ -11,7 +11,7 @@ import 'package:presensi_app/service/auth.dart';
 
 jadwal({Map? body}) async {
   final response = await http.get(
-    Uri.parse("${api}jadwal"),
+    Uri.parse("${api}jadwal/${dataUser?['kelas_id'].toString()}"),
     headers: {
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',

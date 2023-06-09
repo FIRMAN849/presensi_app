@@ -15,7 +15,7 @@ class _editPasswordState extends State<editPassword> {
   TextEditingController currentpassword = TextEditingController();
   TextEditingController newpassword = TextEditingController();
 
-  bool showPasssword = false;
+  bool showPasssword = true;
 
   create() async {
     if (currentpassword.text.isNotEmpty && newpassword.text.isNotEmpty) {

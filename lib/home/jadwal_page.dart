@@ -121,7 +121,7 @@ class _jadwalPagerState extends State<jadwalPage> {
                       primaryTextStyle.copyWith(fontSize: 16, fontWeight: bold),
                 ),
                 title: Text(
-                  dd['mapel_id'],
+                  dd['mapel_id'].toString(),
                   style: primaryTextStyle.copyWith(
                       fontSize: 14, fontWeight: semibold),
                 ),
@@ -129,7 +129,7 @@ class _jadwalPagerState extends State<jadwalPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      dd['guru_id'],
+                      dd['guru_id'].toString(),
                       style: primaryTextStyle.copyWith(
                           fontSize: 13, fontWeight: regular),
                     ),

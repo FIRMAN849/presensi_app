@@ -170,23 +170,24 @@ class _jadwalPagerState extends State<jadwalPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-          child: ListView(
-        children: [
-          Container(
-            margin: EdgeInsets.symmetric(
-              horizontal: defaultMargin,
+        child: ListView(
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: defaultMargin,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  header(),
+                  biodata(),
+                  listjadwal(),
+                ],
+              ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                header(),
-                biodata(),
-                listjadwal(),
-              ],
-            ),
-          ),
-        ],
-      )),
+          ],
+        ),
+      ),
     );
   }
 }

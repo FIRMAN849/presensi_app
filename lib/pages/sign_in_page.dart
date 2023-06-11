@@ -247,7 +247,7 @@ class _signPageState extends State<SignInPage> {
       return Container(
         height: 50,
         width: double.infinity,
-        margin: const EdgeInsets.only(top: 10),
+        margin: const EdgeInsets.only(top: 20),
         child: TextButton(
           onPressed: () {
             sigIn();
@@ -284,7 +284,7 @@ class _signPageState extends State<SignInPage> {
               textLogin(),
               inputUsername(),
               inputPassword(),
-              forgotPassword(),
+              // forgotPassword(),
               signInButton(),
             ],
           ),

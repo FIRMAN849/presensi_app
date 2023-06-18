@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,8 @@ class PresensiPage extends StatefulWidget {
 }
 
 class _PresensiPageState extends State<PresensiPage> {
+  final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
+
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   QRViewController? qrController;
@@ -35,13 +39,76 @@ class _PresensiPageState extends State<PresensiPage> {
   //   }
   // }
 
-  sendPresensiData() async {
+  Future<void> _getCurrentPosition() async {
     setState(() {
       loading = true;
     });
+    final hasPermission = await _handlePermission();
+
+    if (!hasPermission) {
+      setState(() {
+        loading = false;
+      });
+      return;
+    }
+
+    final position = await _geolocatorPlatform.getCurrentPosition();
+    sendPresensiData(position);
+  }
+
+  Future<bool> _handlePermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await _geolocatorPlatform.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      AwesomeDialog(
+        context: GlobalVariable.navState.currentContext!,
+        dialogType: DialogType.warning,
+        animType: AnimType.scale,
+        title: 'Peringatan',
+        desc: 'Perizinan Lokasi belum diizinkan!',
+        btnOkOnPress: () {},
+      ).show();
+      return false;
+    }
+
+    permission = await _geolocatorPlatform.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await _geolocatorPlatform.requestPermission();
+      if (permission == LocationPermission.denied) {
+        AwesomeDialog(
+          context: GlobalVariable.navState.currentContext!,
+          dialogType: DialogType.warning,
+          animType: AnimType.scale,
+          title: 'Peringatan',
+          desc: 'Perizinan Lokasi belum diizinkan!',
+          btnOkOnPress: () {},
+        ).show();
+        return false;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      AwesomeDialog(
+        context: GlobalVariable.navState.currentContext!,
+        dialogType: DialogType.warning,
+        animType: AnimType.scale,
+        title: 'Peringatan',
+        desc: 'Perizinan Lokasi belum diizinkan!',
+        btnOkOnPress: () {},
+      ).show();
+      return false;
+    }
+
+    return true;
+  }
+
+  sendPresensiData(Position position) async {
     var bd = {
       'siswa_id': dataUser!['siswa_id'].toString(),
-      // 'location': '${position.latitude},${position.longitude}',
+      'location': '${position.latitude},${position.longitude}',
       'jenis_absen': result!.code,
     };
     Map res = await sendPresensi(bd);
@@ -64,16 +131,24 @@ class _PresensiPageState extends State<PresensiPage> {
       setState(() {
         loading = false;
       });
-      ScaffoldMessenger.of(GlobalVariable.navState.currentContext!)
-          .showSnackBar(
-        SnackBar(
-          backgroundColor: primaryColor,
-          content: Text(
-            res['meta']['message'],
-            textAlign: TextAlign.center,
-          ),
-        ),
-      );
+      AwesomeDialog(
+        context: GlobalVariable.navState.currentContext!,
+        dialogType: DialogType.error,
+        animType: AnimType.scale,
+        title: 'Error',
+        desc: res['meta']['message'],
+        btnOkOnPress: () {},
+      ).show();
+      // ScaffoldMessenger.of(GlobalVariable.navState.currentContext!)
+      //     .showSnackBar(
+      //   SnackBar(
+      //     backgroundColor: primaryColor,
+      //     content: Text(
+      //       res['meta']['message'],
+      //       textAlign: TextAlign.center,
+      //     ),
+      //   ),
+      // );
     }
   }
 
@@ -83,6 +158,13 @@ class _PresensiPageState extends State<PresensiPage> {
     super.dispose();
     // getCurrentPosition();
     // getLocation();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _handlePermission();
   }
 
   @override
@@ -204,7 +286,7 @@ class _PresensiPageState extends State<PresensiPage> {
         result = scanData;
       });
       if (!loading) {
-        sendPresensiData();
+        _getCurrentPosition();
       }
     });
   }

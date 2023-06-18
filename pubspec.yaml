@@ -41,6 +41,7 @@ dependencies:
   getwidget: ^2.0.4
   qr_code_scanner: ^1.0.1
   geolocator: ^9.0.2
+  awesome_dialog: ^3.1.0
 
 dev_dependencies:
   flutter_test:

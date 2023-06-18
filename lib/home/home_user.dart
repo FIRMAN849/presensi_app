@@ -52,7 +52,7 @@ class _homeUserState extends State<homeUser> {
                 Text(
                   'Hello',
                   style: primaryTextStyle.copyWith(
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: bold,
                   ),
                 ),
@@ -62,7 +62,7 @@ class _homeUserState extends State<homeUser> {
                 Text(
                   dataUser['user']?['nama'] ?? '',
                   style: primaryTextStyle.copyWith(
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: bold,
                   ),
                 ),
@@ -120,6 +120,7 @@ class _homeUserState extends State<homeUser> {
                   TextButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/panduan');
+                      // getLocation();
                     },
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.all(1),

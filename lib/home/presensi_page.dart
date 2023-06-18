@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:presensi_app/main.dart';
 import 'package:presensi_app/service/auth.dart';
 import 'package:presensi_app/service/izin.dart';
@@ -40,7 +41,8 @@ class _PresensiPageState extends State<PresensiPage> {
     });
     var bd = {
       'siswa_id': dataUser!['siswa_id'].toString(),
-      'jenis_absen': result!.code
+      // 'location': '${position.latitude},${position.longitude}',
+      'jenis_absen': result!.code,
     };
     Map res = await sendPresensi(bd);
     print(res);
@@ -79,6 +81,8 @@ class _PresensiPageState extends State<PresensiPage> {
   void dispose() {
     qrController?.dispose();
     super.dispose();
+    // getCurrentPosition();
+    // getLocation();
   }
 
   @override

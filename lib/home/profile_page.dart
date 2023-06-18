@@ -62,21 +62,21 @@ class _profilePageState extends State<ProfilePage> {
                     Text(
                       dataUser['user']?['nama'] ?? '',
                       style: primaryTextStyle.copyWith(
-                        fontSize: 18,
+                        fontSize: 14,
                         fontWeight: bold,
                       ),
                     ),
                     Text(
                       dataUser['kelas']?['nama_kelas'] ?? '',
                       style: secondaryTextStyle.copyWith(
-                        fontSize: 14,
+                        fontSize: 12,
                         fontWeight: regular,
                       ),
                     ),
                     Text(
                       dataUser['nis'] ?? '',
                       style: secondaryTextStyle.copyWith(
-                        fontSize: 14,
+                        fontSize: 12,
                         fontWeight: regular,
                       ),
                     ),

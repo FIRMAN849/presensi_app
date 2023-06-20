@@ -52,7 +52,10 @@ class _PresensiPageState extends State<PresensiPage> {
       return;
     }
 
-    final position = await _geolocatorPlatform.getCurrentPosition();
+    final position = await _geolocatorPlatform.getCurrentPosition(
+        locationSettings: const LocationSettings(
+      accuracy: LocationAccuracy.high,
+    ));
     sendPresensiData(position);
   }
 
